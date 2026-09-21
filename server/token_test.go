@@ -851,7 +851,7 @@ func TestRefreshTokenWithResources(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := New(nil, "", false, false, false)
+			s := New(nil, "", false, false, false, false)
 
 			// Create refresh token
 			rt := "test-refresh-token"
@@ -912,7 +912,7 @@ func TestRefreshTokenWithResources(t *testing.T) {
 
 // TestRefreshTokenScopePreservation tests scope preservation in refresh tokens
 func TestRefreshTokenScopePreservation(t *testing.T) {
-	s := New(nil, "", false, false, false)
+	s := New(nil, "", false, false, false, false)
 
 	// Create refresh token with specific scopes
 	rt := "test-refresh-token-scopes"
@@ -1020,7 +1020,7 @@ func TestAZPClaimWithMultipleAudiences(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := New(nil, "", false, false, false)
+			s := New(nil, "", false, false, false, false)
 
 			// Set up funnel client
 			s.funnelClients["test-client"] = &FunnelClient{

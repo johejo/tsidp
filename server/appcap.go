@@ -24,6 +24,9 @@ type capRule struct {
 	Users     []string `json:"users"`     // list of users allowed to access resources (supports "*" wildcard)
 	Resources []string `json:"resources"` // list of audience/resource URIs the user can access
 
+	// Allowed audiences for machine identity tokens (exact matches or "*" for all).
+	IdentityTokenAudiences []string `json:"identityTokenAudiences,omitempty"`
+
 	// allow lists
 	AllowAdminUI bool `json:"allow_admin_ui"`
 	AllowDCR     bool `json:"allow_dcr"` // dynamic client registration

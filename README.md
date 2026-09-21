@@ -155,6 +155,10 @@ $ TAILSCALE_USE_WIP_CODE=1 TS_AUTHKEY={YOUR_TAILSCALE_AUTHKEY} TSNET_FORCE_LOGIN
           "users":     ["*"],
           "resources": ["*"],
 
+          // Machine identity token audiences (requires --enable-id-token).
+          // Exact matches or "*" for all audiences; partial globs are not supported.
+          "identityTokenAudiences": ["https://service.example"],
+
           // extraClaims are included in the id_token
           // recommend: keep this small and simple
           "extraClaims": {
@@ -186,6 +190,7 @@ The `tsidp-server` is configured by several command-line flags:
 | `-local-port <port>`           | Listen on `localhost:<port>`. Useful for testing                                                   | disabled |
 | `-use-local-tailscaled`        | Use local tailscaled instead of tsnet                                                              | `false`  |
 | `-funnel`                      | Use Tailscale Funnel to make tsidp available on the public internet so it works with SaaS products | disabled |
+| `--enable-id-token`            | Enable machine identity tokens for direct tailnet connections                                      | disabled |
 | `-enable-sts`                  | Enable OAuth token exchange using RFC 8693                                                         | disabled |
 | `-advertise-tags <tags>`       | Comma-separated advertise tags (e.g. `tag:tsidp`). Required when using OAuth client secrets        | `""`     |
 | `-log <level>`                 | Set logging level: `debug`, `info`, `warn`, `error`                                                | `info`   |
@@ -227,6 +232,7 @@ The Docker image exposes the CLI flags through environment variables. If omitted
 | `TSIDP_LOCAL_PORT=<local-port>`          | `-local-port <local-port>` |
 | `TSIDP_USE_LOCAL_TAILSCALED=1`           | `-use-local-tailscaled`    |
 | `TSIDP_USE_FUNNEL=1`                     | `-funnel`                  |
+| `TSIDP_ENABLE_ID_TOKEN=1`                | `--enable-id-token`        |
 | `TSIDP_ENABLE_STS=1`                     | `-enable-sts`              |
 | `TSIDP_LOG=<level>`                      | `-log <level>`             |
 | `TSIDP_DEBUG_TSNET=1`                    | `-debug-tsnet`             |

@@ -50,6 +50,8 @@ type IDPServer struct {
 	localTSMode bool // use local tailscaled instead of tsnet
 	enableSTS   bool
 
+	enableIDToken bool
+
 	lazyMux        lazy.SyncValue[http.Handler]
 	lazySigningKey lazy.SyncValue[*signingKey]
 	lazySigner     lazy.SyncValue[jose.Signer]
@@ -163,13 +165,14 @@ const (
 )
 
 // New creates a new IDPServer instance
-func New(lc *local.Client, stateDir string, funnel, localTSMode, enableSTS bool) *IDPServer {
+func New(lc *local.Client, stateDir string, funnel, localTSMode, enableSTS, enableIDToken bool) *IDPServer {
 	return &IDPServer{
 		lc:            lc,
 		stateDir:      stateDir,
 		funnel:        funnel,
 		localTSMode:   localTSMode,
 		enableSTS:     enableSTS,
+		enableIDToken: enableIDToken,
 		code:          make(map[string]*AuthRequest),
 		accessToken:   make(map[string]*AuthRequest),
 		refreshToken:  make(map[string]*AuthRequest),
@@ -246,6 +249,7 @@ func (s *IDPServer) newMux() http.Handler {
 
 	// Register /token endpoint
 	mux.HandleFunc("/token", s.serveToken)
+	mux.HandleFunc("/identity-token", s.serveIdentityToken)
 
 	// Register /introspect endpoint
 	mux.HandleFunc("/introspect", s.serveIntrospect)

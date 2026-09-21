@@ -47,6 +47,8 @@ var (
 	flagAdvertiseTags      = flag.String("advertise-tags", envknob.String("TS_ADVERTISE_TAGS"), "comma-separated advertise tags (e.g. tag:tsidp,tag:server); required when using OAuth client secrets")
 	flagAuthKeyFile        = flag.String("authkey-file", envknob.String("TS_AUTHKEY_FILE"), "read the Tailscale auth key from this file instead of TS_AUTHKEY (e.g. for Docker/Kubernetes secrets); don't set both")
 
+	flagEnableIDToken = flag.Bool("enable-id-token", envknob.Bool("TSIDP_ENABLE_ID_TOKEN"), "enable machine identity tokens for direct tailnet connections")
+
 	// application logging levels
 	flagLogLevel = flag.String("log", cmp.Or(envknob.String("TSIDP_LOG"), "info"), "log levels: debug, info, warn, error")
 
@@ -219,6 +221,7 @@ func main() {
 		*flagFunnel,
 		*flagUseLocalTailscaled,
 		*flagEnableSTS,
+		*flagEnableIDToken,
 	)
 
 	srv.SetServerURL(strings.TrimSuffix(st.Self.DNSName, "."), *flagPort)
